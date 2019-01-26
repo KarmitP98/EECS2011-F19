@@ -24,21 +24,20 @@ public class ConvexPolygon extends SimplePolygon {
 	private int size, dir;
 	private boolean convex = true;
 
-	public boolean isConvex() {
-		SimplePolygon poly = new SimplePolygon().getNewPoly();
+	public boolean isConvex(SimplePolygon poly) {
 		vert = poly.vertices;
 		size = poly.getSize();
 		dir = 1;
 
-		oSlope = (vertices[1].getY() - vertices[0].getY()) / (vertices[1].getX() - vertices[0].getX());
+		oSlope = (vert[1].getY() - vert[0].getY()) / (vert[1].getX() - vert[0].getX());
 
 		for (int i = 1; i < n; i++) {
-			Point2D.Double p1 = vertices[i];
+			Point2D.Double p1 = vert[i];
 			Point2D.Double p2;
 			if (i == n - 1)
-				p2 = vertices[0];
+				p2 = vert[0];
 			else
-				p2 = vertices[n + 1];
+				p2 = vert[n + 1];
 
 			nSlope = (p2.getY() - p1.getY()) / (p2.getX() - p1.getX());
 

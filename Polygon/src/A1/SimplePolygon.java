@@ -216,6 +216,11 @@ public class SimplePolygon implements Polygon {
 		return simple;
 
 	}
+	
+	public boolean isConvex()
+	{
+		return new ConvexPolygon().isConvex(this);
+	}
 
 	/************ perimeter & area ***************/
 

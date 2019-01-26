@@ -19,6 +19,7 @@ public class PolygonTester {
 		System.out.println("Size: "+simplePolygon.getSize());
 		System.out.println("Vertex 3: "+ simplePolygon.getVertex(2));
 		System.out.println("Is Simple?: "+simplePolygon.isSimple());
+		System.out.println("Is Convex?: "+simplePolygon.isConvex());
 		try {
 			System.out.println("Perimeter: "+simplePolygon.perimeter()+ " Area: "+simplePolygon.area());
 		} catch (NonSimplePolygonException e) {
