@@ -1,10 +1,10 @@
 /**********************************************************
  * EECS2011: Fundamentals of Data Structures,  Winter 2019
  * Assignment 1: Polygon Hierarchy
- * Section:  M  or  Z ?
- * Student Name:   ?
- * Student eecs account:  ?
- * Student ID number:  ? 
+ * Section:  Z 
+ * Student Name:  Karmit Patel 
+ * Student eecs account:  kk07
+ * Student ID number: 215688211  
  **********************************************************/
 package A1;
 
@@ -38,7 +38,7 @@ public class SimplePolygon implements Polygon {
 		this.n = size;
 		Scanner sc = new Scanner(System.in);
 		vertices = new Point2D.Double[size];
-
+		System.out.println("Enter Polygon:");
 		for (int i = 0; i < n; i++)
 			vertices[i] = new Point2D.Double(sc.nextDouble(), sc.nextDouble());
 
@@ -59,6 +59,7 @@ public class SimplePolygon implements Polygon {
 	 */
 	public static SimplePolygon getNewPoly() {
 		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter Size: ");
 		int size = sc.nextInt();
 		SimplePolygon p = new SimplePolygon(size);
 
@@ -95,7 +96,20 @@ public class SimplePolygon implements Polygon {
 	 */
 	@Override
 	public String toString() {
-		return "xxx"; // TODO: replace this line with your code
+		String str = "Is Simple?: " + this.isSimple();
+		str += "\nIs Convex?: " + isConvex();
+
+		if (isSimple()) {
+			str += "\nPerimeter: " + this.perimeter();
+			try {
+				str += "\nArea: " + this.area();
+			} catch (NonSimplePolygonException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return str;
+
 	}
 
 	/************** utilities *********************/
@@ -116,7 +130,8 @@ public class SimplePolygon implements Polygon {
 
 		double det = (b.getX() * c.getY() - c.getX() * b.getY()) - (a.getX() * c.getY() - a.getY() * c.getX())
 				+ (a.getX() * b.getY() - a.getY() * b.getX());
-		//System.out.println("TEST:: Delta: " + det + " Points: " + a + " " + b + " " + c);
+		// System.out.println("TEST:: Delta: " + det + " Points: " + a + " " + b + " " +
+		// c);
 		return det;
 	}
 
@@ -146,6 +161,45 @@ public class SimplePolygon implements Polygon {
 
 		return false;
 
+	}
+
+	public boolean intersection(int i, int j) {
+		if (i < 0 || i > n - 1 || j < 0 || j > n - 1)
+			throw new IndexOutOfBoundsException();
+
+		Point2D.Double a, b, c, d;
+
+		a = vertices[i];
+		if (i == n - 1)
+			b = vertices[0];
+		else
+			b = vertices[i + 1];
+
+		c = vertices[j];
+		if (j == n - 1)
+			d = vertices[0];
+		else
+			d = vertices[j + 1];
+
+		return disjointSegments(a, b, c, d);
+	}
+
+	public boolean intersectingSegments(Point2D.Double a, Point2D.Double b, Point2D.Double c, Point2D.Double d) {
+		int dir1 = orientation(a, b, c), dir2 = orientation(a, b, d), dir3 = orientation(c, d, a),
+				dir4 = orientation(c, d, b);
+
+		if (dir1 != dir2 && dir3 != dir4)
+			return true;
+		if (dir1 != 0 && onLine(a, b, c))
+			return false;
+		if (dir2 != 0 && onLine(a, b, d))
+			return false;
+		if (dir3 != 0 && onLine(c, d, a))
+			return false;
+		if (dir4 != 0 && onLine(c, d, b))
+			return false;
+
+		return false;
 	}
 
 	/**
@@ -204,21 +258,23 @@ public class SimplePolygon implements Polygon {
 	public boolean isSimple() {
 		boolean simple = true;
 
-		for (int i = 0; i < vertices.length - 1; i++) {
-			for (int j = 0; j < n; j++) {
-				if (disjointEdges(i, j) == true) {
-					simple = false;
-					break;
+		for (int i = 0; i < n - 2; i++) {
+			for (int j = i + 2; j < n; j++) {
+				if (i == 0 && j == n - 1) {
+					simple = disjointEdges(i, n - 2);
+				} else {
+					simple = disjointEdges(i, j);
 				}
+				if (simple == false)
+					break;
 			}
+
 		}
 
-		return simple;
-
+		return !simple;
 	}
-	
-	public boolean isConvex()
-	{
+
+	public boolean isConvex() {
 		return new ConvexPolygon().isConvex(this);
 	}
 

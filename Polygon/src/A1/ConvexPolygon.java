@@ -58,7 +58,8 @@ public class ConvexPolygon extends SimplePolygon {
 			}
 
 		}
-
+	
 		return convex;
 	}
+	
 }

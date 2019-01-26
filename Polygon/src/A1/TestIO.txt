@@ -1,0 +1,31 @@
+Polygon 1:
+Enter Size: 
+4
+Enter Polygon:
+6 1 9 5 5 8 2 4
+Is Simple?: true
+Is Convex?: true
+Perimeter: 20.0
+Area: 25.0
+
+Polygon 2:
+Enter Size: 
+5
+Enter Polygon:
+8.9 21.8 29.1 8.8 39.2 20.3 14 11 28 25
+Is Simple?: true
+Is Convex?: true
+Perimeter: 105.35371946527503
+Area: 133.30500000000004
+
+Polygon 3:
+Enter Size: 
+7
+Enter Polygon:
+28 2 31 5 28 10 14 14 5 10 8 4 18 1
+Is Simple?: true
+Is Convex?: true
+Perimeter: 61.68105622485254
+Area: 227.0
+
+Polygon 4:
